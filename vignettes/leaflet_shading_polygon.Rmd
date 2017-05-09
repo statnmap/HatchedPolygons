@@ -1,0 +1,128 @@
+---
+title: "How to fill a hatched area polygon with holes in leaflet with R"
+author: "Sébastien Rochette - StatnMap"
+date: "`r Sys.Date()`" 
+output: rmarkdown::html_vignette 
+vignette: > 
+  %\VignetteIndexEntry{How to fill a hatched area polygon with holes in leaflet with R} 
+  %\VignetteEngine{knitr::rmarkdown} 
+  %\VignetteEncoding{UTF-8}
+---
+
+# Draw SpatialPolygons with holes using hatched area
+
+Drawing polygons filled with a hatched background is quite easy with classical plot in R. This only requires to define `density` and `angle` parameters of `polygon` function. `SpatialPolygons` from library `sp` also uses this `polygon` function. However, if you want to draw a hatched area of a `SpatialPolygons` when there are holes, this may not work perfectly as the hole is filled with the plot background color to hide the hatched area of the surrounding polygon. Hence, if you want to draw a polygon with holes over a background image, you will not be able to see what is behind holes, which is a shame because this is one aim of a hole. Here, I show how you could get rid of this behaviour by using `SpatialLines` to draw the hatched area.  
+By the way, this trick is also useful for polygons in leaflet widgets as, to my knowledge, hatched polygons is not implemented. Some may want to draw hatched areas instead of coloured polygons with transparency, in particular when there is area superimposition.
+
+## Draw hatched areas in polygons
+
+Let's create two polygons, one representing a hole inside the other.
+```{r SimplePolygon, message = FALSE}
+library(HatchedPolygons)
+library(dplyr)
+library(sp)
+library(raster)
+# library(HatchedPolygons)
+
+# Create two polygons: second would be a hole inside the first
+xy = cbind(
+  x = c(13.4, 13.4, 13.6, 13.6, 13.4),
+  y = c(48.9, 49, 49, 48.9, 48.9)
+    )
+hole.xy <- cbind(
+  x = c(13.5, 13.5, 13.45, 13.45, 13.5),
+  y = c(48.98, 48.92, 48.92, 48.98, 48.98)
+  )
+
+plot(xy)
+polygon(xy, density = 20)
+polygon(hole.xy, density = 20, angle = -45, col = "blue")
+
+```
+
+# Draw hatched areas in SpatialPolygons
+
+We duplicate polygons at different positions and transform these polygons as SpatialPolygons, including holes. Using default graphical options, polygons can be plotted with hatched areas and holes are visible. Polygon drawing function uses the color of the background to fill holes, so that they appear as hole. However, if you want to superimpose your layer over another layer, holes will hide the background image.
+
+```{r}
+# Transform as SpatialPolygon to plot
+xy.sp <- SpatialPolygons(list(
+  Polygons(list(Polygon(xy), 
+                Polygon(hole.xy, hole = TRUE)), "1"),
+  Polygons(list(Polygon(xy + 0.2),
+                Polygon(xy + 0.35),
+                Polygon(hole.xy + 0.2, hole = TRUE)), "2")
+  ))
+
+par(bg = "lightblue") # default
+plot(xy.sp, density = 20, col = 2:3)
+
+# Let's define a raster to be used as background
+r <- raster(nrows = 50, ncols = 50)
+extent(r) <- extent(xy.sp)
+r <- setValues(r, 1:ncell(r))
+
+# Draw again polygons with holes
+par(bg = "lightblue")
+plot(r, legend = FALSE)
+plot(xy.sp, density = 20, col = 2:3, add = TRUE)
+
+```
+
+# Create SpatialLines to draw hatched areas, out of the holes
+
+To avoid filling holes with hatched lines, I decided to use SpatialLines and crop lines that were over a hole using library rgeos.
+I had to account for multiple polygons and thus created a dataframe with the SpatialLines to record original polygons ID. Thus, the number of features in the SpatialLines is not the same than the original SpatialPolygons but the ID column should allow to retrieve the correct polygon and define common colors for instance.
+
+```{r HatchedPolygon}
+# Allows for density different for each polygon
+xy.sp.hatch <- hatched.SpatialPolygons(xy.sp, density = c(60, 90), angle = c(45, 135))
+
+# Draw again polygons with holes
+par(bg = "lightblue")
+plot(r, legend = FALSE)
+plot(xy.sp, col = c("blue", "red"), add = TRUE)
+plot(xy.sp.hatch, col = c("cyan", "grey40")[as.numeric(xy.sp.hatch$ID)], lwd = 2, add = TRUE)
+
+```
+
+# Draw hatched polygons in leaflet
+
+```{r Leaflet}
+library(leaflet)
+
+m <- leaflet() %>%
+  addTiles(group = "OSM (default)") %>%
+          addPolygons(data = xy.sp, 
+                    fillColor = c("transparent", "red"),
+                    color = "#000000", 
+                    opacity = 1, 
+                    fillOpacity = 0.6, 
+                    stroke = TRUE,
+                    weight = 1.5
+        ) %>%
+  addPolylines(data = xy.sp.hatch,
+               color = c("blue", "grey40")[as.numeric(xy.sp.hatch$ID)])
+m
+
+```
+
+# Draw hatched polygons in ggplot2
+
+```{r, message = FALSE}
+library(ggplot2)
+library(plyr)
+# Transform SpatialObject to be used by ggplot2
+xy.sp.l <- broom::tidy(xy.sp)
+xy.sp.hatch.l <- broom::tidy(xy.sp.hatch) %>%
+  tidyr::separate(id, into = c("id", "SubPoly"))
+
+ggplot(xy.sp.l) +
+  geom_polygon(aes(x = long, y = lat, group = group, col = id), fill = "transparent") +
+  geom_line(data = xy.sp.hatch.l, aes(x = long, y = lat, group = group, col = id))
+  
+# http://stackoverflow.com/questions/12047643/geom-polygon-with-multiple-hole/12051278#12051278
+# ggplot(xy.sp.l) +
+#   geom_polygon(aes(x = long, y = lat, group = id, fill = id)) 
+
+```

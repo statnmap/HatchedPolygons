@@ -1,0 +1,30 @@
+Package: HatchedPolygons
+Type: Package
+Title: Create a hatched area for SpatialPolygons
+Version: 0.1.0
+Authors@R: c(person("Sébastien", "Rochette", email = "sebastienrochettefr@gmail.com",
+    role = c("aut", "cre")))
+Maintainer: Sébastien Rochette <sebastienrochettefr@gmail.com>
+Description: This package allows to create a area filled by SpatialLines to allow for hatched areas in SpatialPolygons.
+    This may be particularly useful when SpatialPolygons show holes but also for drawing hatched areas in leaflet Polygons.
+Depends: R (>= 3.2.0)
+License: GPL
+Encoding: UTF-8
+LazyData: true
+Imports:
+    dplyr,
+    graphics,
+    methods,
+    sp,
+    rgeos
+Suggests:
+    broom,
+    plyr,
+    leaflet,
+    raster,
+    ggplot2,
+    tidyr,
+    knitr,
+    rmarkdown
+RoxygenNote: 6.0.1
+VignetteBuilder: knitr
