@@ -1,2 +1,10 @@
 # HatchedPolygons
 Create a hatched area for SpatialPolygons in R
+
+This R package creates a area filled by SpatialLines to allow for hatched areas in SpatialPolygons.  
+This may be particularly useful when SpatialPolygons show holes but also for drawing hatched areas in leaflet Polygons.
+
+
+![Screenshot-On/Off-Rshiny-Switch-Button](https://github.com/statnmap/HatchedPolygons/blob/master/Leaflet_Snapshot.png)
+
+_More on my website: [Freelance - Courses and consulting in modeling with R](https://statnmap.com/)_

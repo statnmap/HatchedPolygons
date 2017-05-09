@@ -92,7 +92,8 @@ plot(xy.sp.hatch, col = c("cyan", "grey40")[as.numeric(xy.sp.hatch$ID)], lwd = 2
 library(leaflet)
 
 m <- leaflet() %>%
-  addTiles(group = "OSM (default)") %>%
+  addTiles(
+    urlTemplate = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png") %>%
           addPolygons(data = xy.sp, 
                     fillColor = c("transparent", "red"),
                     color = "#000000", 
