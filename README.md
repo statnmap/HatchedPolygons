@@ -7,4 +7,5 @@ This may be particularly useful when SpatialPolygons show holes but also for dra
 
 ![Screenshot-On/Off-Rshiny-Switch-Button](https://github.com/statnmap/HatchedPolygons/blob/master/Leaflet_Snapshot.png)
 
+_Description of this function can be found on [statnmap.com](https://statnmap.com/how-to-fill-a-hatched-area-polygon-with-holes-in-leaflet-with-r)_
 _More on my website: [Freelance - Courses and consulting in modeling with R](https://statnmap.com/)_

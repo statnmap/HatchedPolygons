@@ -18,7 +18,8 @@ By the way, this trick is also useful for polygons in leaflet widgets as, to my 
 I built a R package, available on [my statnmap github](https://github.com/statnmap/HatchedPolygons), to provide the function `hatched.SpatialPolygons`. This function is based on the plot method for SpatialPolygons of library sp. I modified the functions and sub-functions to remove all code for direct drawing and allow to output a SpatialLinesDataFrame object, which can then be drawn over any plot, with or without the original SpatialPolygons.
 
 ```{r LibraryInstall}
-# devtools::install_github("statnmap/HatchedPolygons")
+# devtools::install_github("statnmap/HatchedPolygons", build_vignettes = TRUE)
+# vignette("leaflet_shading_polygon", package = "HatchedPolygons")
 # x.hatch <- hatched.SpatialPolygons(x, density = c(60, 90), angle = c(45, 135))
 ```
 
@@ -83,7 +84,7 @@ To avoid filling holes with hatched lines, I decided to use SpatialLines and cro
 I had to account for multiple polygons and thus created a dataframe with the SpatialLines to record original polygons ID. Thus, the number of features in the SpatialLines is not the same than the original SpatialPolygons but the ID column should allow to retrieve the correct polygon and define common colors for instance.
 
 ```{r HatchedPolygon}
-# Allows for density different for each polygon
+# Allows for different hatch densities and directions for each polygon
 xy.sp.hatch <- hatched.SpatialPolygons(xy.sp, density = c(60, 90), angle = c(45, 135))
 xy.sp.hatch
 
