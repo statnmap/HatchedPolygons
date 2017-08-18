@@ -10,7 +10,7 @@ Description: This package allows to create a area filled by SpatialLines to allo
 URL: https://github.com/statnmap/HatchedPolygons
 BugReports: https://github.com/statnmap/HatchedPolygons/issues
 Depends: R (>= 3.2.0)
-License: GPL
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Imports:

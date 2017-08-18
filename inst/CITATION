@@ -1,0 +1,15 @@
+citHeader("To cite HatchedPolygons in publications use:")
+
+citEntry(entry = "misc",
+  title        = "Hatched area in polygons with R - v0.1.0",
+  author       = personList(as.person("Sébastien Rochette")),
+  journal      = "Zenodo",
+  year         = "2017",
+  url          = "https://doi.org/10.5281/zenodo.845493",
+
+  textVersion  =
+  paste("Sébastien Rochette. (2017, August 18).",
+        "Hatched area in polygons with R - v0.1.0.",
+        "Zenodo.",
+        "http://doi.org/10.5281/zenodo.845493")
+)
