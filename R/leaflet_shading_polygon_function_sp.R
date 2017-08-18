@@ -13,12 +13,17 @@ hatched.SpatialPolygons <-
            density = 10, angle = 45,
            fillOddEven = FALSE) {
 
-    if (!is(x, "SpatialPolygons"))
-      stop("Not a SpatialPolygons object")
+    if (is(x, "SpatialPolygons")) {
+      n <- length(slot(x, "polygons"))
+      polys <- slot(x, "polygons")
+      pO <- slot(x, "plotOrder")
+    } else if (sf::st_is(x, c("POLYGON", "MULTIPOLYGON"))[1]) {
+      n <- length(x)
+      # To do
+    } else {
+      stop("Not a sp::SpatialPolygons or sf::*POLYGON object")
+    }
 
-    n <- length(slot(x, "polygons"))
-    polys <- slot(x, "polygons")
-    pO <- slot(x, "plotOrder")
 
     if (length(density) != n)
       density <- rep(density, n, n)
@@ -26,6 +31,7 @@ hatched.SpatialPolygons <-
       angle <- rep(angle, n, n)
     all.Lines <- list()
     all.Lines.ID <- numeric(0)
+
     for (j in pO) {
       all.Lines.tmp <- polygonRingHolesLines(
         polys[[j]],

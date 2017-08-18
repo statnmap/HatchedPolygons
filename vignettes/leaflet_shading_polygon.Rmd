@@ -9,6 +9,14 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+```{r setup, include=FALSE, purl=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE, 
+  fig.show = 'asis',
+  fig.align = 'center'
+  )
+```
+
 # Draw SpatialPolygons with holes using hatched area
 
 Drawing polygons filled with a hatched background is quite easy with classical plot in R. This only requires to define `density` and `angle` parameters of `polygon` function. `SpatialPolygons` from library `sp` also uses this `polygon` function. However, if you want to draw a hatched area of a `SpatialPolygons` when there are holes, this may not work perfectly as the hole is filled with the plot background color to hide the hatched area of the surrounding polygon. Hence, if you want to draw a polygon with holes over a background image, you will not be able to see what is behind holes, which is a shame because this is one aim of a hole. Here, I show how you could get rid of this behaviour by using `SpatialLines` to draw the hatched area.  
@@ -18,7 +26,7 @@ By the way, this trick is also useful for polygons in leaflet widgets as, to my 
 I built a R package, available on [my statnmap github](https://github.com/statnmap/HatchedPolygons), to provide the function `hatched.SpatialPolygons`. This function is based on the plot method for SpatialPolygons of library sp. I modified the functions and sub-functions to remove all code for direct drawing and allow to output a SpatialLinesDataFrame object, which can then be drawn over any plot, with or without the original SpatialPolygons.
 
 ```{r LibraryInstall}
-# devtools::install_github("statnmap/HatchedPolygons", build_vignettes = TRUE)
+# devtools::install_github("statnmap/HatchedPolygons")
 # vignette("leaflet_shading_polygon", package = "HatchedPolygons")
 # x.hatch <- hatched.SpatialPolygons(x, density = c(60, 90), angle = c(45, 135))
 ```
@@ -30,6 +38,7 @@ Let's create two polygons, one representing a hole inside the other.
 library(HatchedPolygons)
 library(dplyr)
 library(sp)
+library(sf)
 library(raster)
 # library(HatchedPolygons)
 
@@ -43,9 +52,10 @@ hole.xy <- cbind(
   y = c(48.98, 48.92, 48.92, 48.98, 48.98)
   )
 
+par(bg = "white", mar = c(2, 2, 0.5, 0.5))
 plot(xy)
-polygon(xy, density = 20)
-polygon(hole.xy, density = 20, angle = -45, col = "blue")
+polygon(xy, density = 5, lwd = 2, col = "grey20")
+polygon(hole.xy, density = 5, lwd = 2, angle = -45, col = "blue")
 
 ```
 
@@ -58,13 +68,14 @@ Let's duplicate polygons at different positions and transform these polygons as 
 xy.sp <- SpatialPolygons(list(
   Polygons(list(Polygon(xy), 
                 Polygon(hole.xy, hole = TRUE)), "1"),
-  Polygons(list(Polygon(xy + 0.2),
-                Polygon(xy + 0.35),
-                Polygon(hole.xy + 0.2, hole = TRUE)), "2")
+  Polygons(list(Polygon(hole.xy + 0.2, hole = TRUE),
+    Polygon(xy + 0.2),
+                Polygon(xy + 0.35)
+                ), "2")
   ))
 
-par(bg = "lightblue") # default
-plot(xy.sp, density = 20, col = 2:3)
+par(bg = "lightblue", mar = c(2, 2, 0.5, 0.5)) # default
+plot(xy.sp, density = 10, col = c("red", "blue"), lwd = 2)
 
 # Let's define a raster to be used as background
 r <- raster(nrows = 50, ncols = 50)
@@ -72,9 +83,9 @@ extent(r) <- extent(xy.sp)
 r <- setValues(r, 1:ncell(r))
 
 # Draw again polygons with holes
-par(bg = "lightblue")
-plot(r, legend = FALSE)
-plot(xy.sp, density = 20, col = 2:3, add = TRUE)
+par(bg = "lightblue", mar = c(2, 2, 0.5, 0.5))
+image(r, col = rev(terrain.colors(50)))
+plot(xy.sp, density = 10, col = c("red", "blue"), lwd = 2, add = TRUE)
 
 ```
 
@@ -85,14 +96,15 @@ I had to account for multiple polygons and thus created a dataframe with the Spa
 
 ```{r HatchedPolygon}
 # Allows for different hatch densities and directions for each polygon
-xy.sp.hatch <- hatched.SpatialPolygons(xy.sp, density = c(60, 90), angle = c(45, 135))
+xy.sp.hatch <- hatched.SpatialPolygons(xy.sp, density = c(40, 60), angle = c(45, 135))
 xy.sp.hatch
 
 # Draw again polygons with holes
-par(bg = "lightblue")
-plot(r, legend = FALSE)
+par(bg = "lightblue", mar = c(2, 2, 0.5, 0.5))
+image(r, col = rev(terrain.colors(50)))
 plot(xy.sp, col = c("blue", "red"), add = TRUE)
-plot(xy.sp.hatch, col = c("cyan", "grey40")[as.numeric(xy.sp.hatch$ID)], lwd = 2, add = TRUE)
+plot(xy.sp.hatch, col = c("cyan", "grey90")[as.numeric(xy.sp.hatch$ID)],
+     lwd = 3, add = TRUE)
 
 ```
 
@@ -114,13 +126,16 @@ m <- leaflet() %>%
                     weight = 1.5
         ) %>%
   addPolylines(data = xy.sp.hatch,
-               color = c("blue", "grey40")[as.numeric(xy.sp.hatch$ID)])
-m
+               color = c("blue", "#FFF")[as.numeric(xy.sp.hatch$ID)])
 
+# Save the map ----
+# htmlwidgets::saveWidget(m, file = "Hatched_Polygon_Leaflet_alone.html")
+
+m
 ```
 
-## Draw hatched polygons in ggplot2
-Of course, this can also be used with ggplot2.
+## Draw hatched polygons in `ggplot2`
+Of course, this can also be used with `ggplot2`...
 
 ```{r, message = FALSE}
 library(ggplot2)
@@ -130,14 +145,45 @@ xy.sp.hatch.l <- broom::tidy(xy.sp.hatch) %>%
   tidyr::separate(id, into = c("id", "SubPoly"))
 
 ggplot(xy.sp.l) +
-  geom_polygon(aes(x = long, y = lat, group = group, col = id), fill = "transparent") +
-  geom_line(data = xy.sp.hatch.l, aes(x = long, y = lat, group = group, col = id))
+  geom_polygon(aes(x = long, y = lat, group = group, col = id), 
+               fill = "transparent", size = 1.5) +
+  geom_line(data = xy.sp.hatch.l, 
+            aes(x = long, y = lat, group = group, col = id),
+            size = 1) +
+  guides(col = FALSE)
   
 # http://stackoverflow.com/questions/12047643/geom-polygon-with-multiple-hole/12051278#12051278
 # ggplot(xy.sp.l) +
-#   geom_polygon(aes(x = long, y = lat, group = id, fill = id)) 
+#   geom_polygon(aes(x = long, y = lat, group = id, fill = id))
 
 ```
+
+# Reproduce with library `sf`
+Function `hatched.SpatialPolygons` does not yet work direcly with polygons from library `sf` but SpatialPolygons can be transformed as `sf` objects.
+
+```{r}
+# Transform as sf objects
+xy.sp.hatch.sf <- sf::st_as_sf(xy.sp.hatch)
+xy.sp.sf <- sf::st_as_sf(xy.sp)
+
+# Create leaflet widget --------------------------------------------------------
+m <- leaflet() %>%
+  addTiles(
+    urlTemplate = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png") %>%
+          addPolygons(data = xy.sp.sf, 
+                    fillColor = c("transparent", "red"),
+                    color = "#000000", 
+                    opacity = 1, 
+                    fillOpacity = 0.6, 
+                    stroke = TRUE,
+                    weight = 1.5
+        ) %>%
+  addPolylines(data = xy.sp.hatch.sf,
+               color = c("blue", "#FFF")[as.numeric(xy.sp.hatch.sf$ID)])
+
+m
+```
+
 
 _Description of this function can be found on [statnmap.com](https://statnmap.com/how-to-fill-a-hatched-area-polygon-with-holes-in-leaflet-with-r)_
 _Function `hatched.SpatialPolygons` can be found in my R package `HatchedPolygons` on [my statnmap github](https://github.com/statnmap/HatchedPolygons). This R package has been built only for this function_

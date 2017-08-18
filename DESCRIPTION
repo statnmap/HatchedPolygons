@@ -24,6 +24,8 @@ Suggests:
     ggplot2,
     tidyr,
     knitr,
-    rmarkdown
+    rmarkdown,
+    scales,
+    sf
 RoxygenNote: 6.0.1
 VignetteBuilder: knitr
