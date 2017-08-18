@@ -1,4 +1,6 @@
 # HatchedPolygons
+[![DOI](https://zenodo.org/badge/90766217.svg)](https://zenodo.org/badge/latestdoi/90766217)
+
 ## Create a hatched area for SpatialPolygons in R
 
 This R package creates a area filled by SpatialLines to allow for hatched areas in SpatialPolygons.  
@@ -18,3 +20,6 @@ There is also a vignette:
 ```
 vignette("leaflet_shading_polygon", package = "HatchedPolygons")
 ```
+
+Citation:   
+Sébastien Rochette. (2017, August 18). Hatched area in polygons with R - v0.1.0. Zenodo. <http://doi.org/10.5281/zenodo.845493>
