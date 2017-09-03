@@ -1,5 +1,6 @@
 # HatchedPolygons
 [![DOI](https://zenodo.org/badge/90766217.svg)](https://zenodo.org/badge/latestdoi/90766217)
+[![Travis-CI Build Status](https://travis-ci.org/statnmap/HatchedPolygons.svg?branch=master)](https://travis-ci.org/statnmap/HatchedPolygons)
 
 ## Create a hatched area for SpatialPolygons in R
 
