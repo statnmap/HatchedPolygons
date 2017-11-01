@@ -185,5 +185,5 @@ m
 ```
 
 
-_Description of this function can be found on [statnmap.com](https://statnmap.com/how-to-fill-a-hatched-area-polygon-with-holes-in-leaflet-with-r)_
+_Description of this function can be found on [statnmap.com](https://statnmap.com/2017-05-23-how-to-fill-a-hatched-area-polygon-with-holes-in-leaflet-with-r)_
 _Function `hatched.SpatialPolygons` can be found in my R package `HatchedPolygons` on [my statnmap github](https://github.com/statnmap/HatchedPolygons). This R package has been built only for this function_
