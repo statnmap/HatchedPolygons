@@ -3,5 +3,6 @@
 export(hatched.SpatialPolygons)
 export(polygon.fullhatch)
 import(sp)
+importFrom(methods,as)
 importFrom(methods,is)
 importFrom(methods,slot)

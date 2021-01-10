@@ -4,8 +4,13 @@
 \alias{polygonRingHolesLines}
 \title{Get SpatialLines of one Polygons feature}
 \usage{
-polygonRingHolesLines(Sr, density = 0.5, angle = 45, ID = 1,
-  fillOddEven = FALSE)
+polygonRingHolesLines(
+  Sr,
+  density = 0.5,
+  angle = 45,
+  ID = 1,
+  fillOddEven = FALSE
+)
 }
 \arguments{
 \item{Sr}{An object of class Polygons}

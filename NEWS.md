@@ -1,5 +1,7 @@
 # HatchedPolygons v0.2.0
-In progress...
+
+- Add vignettes
+- Build pkgdown with CI
 
 # HatchedPolygons v0.1.0
 First release

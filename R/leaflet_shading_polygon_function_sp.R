@@ -3,7 +3,7 @@
 #' @inheritParams graphics::polygon
 #' @param x SpatialPolygons* from library sp
 #' @import sp
-#' @importFrom methods is
+#' @importFrom methods is as
 #' @importFrom methods slot
 #'
 #' @export
@@ -13,13 +13,22 @@ hatched.SpatialPolygons <-
            density = 10, angle = 45,
            fillOddEven = FALSE) {
 
+    type <- NULL
+
+
     if (is(x, "SpatialPolygons")) {
       n <- length(slot(x, "polygons"))
       polys <- slot(x, "polygons")
       pO <- slot(x, "plotOrder")
+      type <- "sp"
     } else if (sf::st_is(x, c("POLYGON", "MULTIPOLYGON"))[1]) {
-      n <- length(x)
+      # n <- length(x)
       # To do
+      x <- as(x, "Spatial")
+      n <- length(slot(x, "polygons"))
+      polys <- slot(x, "polygons")
+      pO <- slot(x, "plotOrder")
+      type <- "sf"
     } else {
       stop("Not a sp::SpatialPolygons or sf::*POLYGON object")
     }
@@ -47,7 +56,13 @@ hatched.SpatialPolygons <-
       SpatialLines(all.Lines),
       data = data.frame(ID = all.Lines.ID),
       match.ID = FALSE)
-    return(SpatialLinesDF)
+
+    if (type == "sf") {
+      SpatialLinesDF_sf <- sf::st_as_sf(SpatialLinesDF)
+      return(SpatialLinesDF_sf)
+    } else {
+      return(SpatialLinesDF)
+    }
   }
 
 #' Get SpatialLines of one Polygons feature

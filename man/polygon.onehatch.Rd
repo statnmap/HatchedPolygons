@@ -4,8 +4,17 @@
 \alias{polygon.onehatch}
 \title{Create one line for hatch area of one polygon}
 \usage{
-polygon.onehatch(x, y, x0, y0, xd, yd, ..debug.hatch = FALSE,
-  fillOddEven = FALSE, ...)
+polygon.onehatch(
+  x,
+  y,
+  x0,
+  y0,
+  xd,
+  yd,
+  ..debug.hatch = FALSE,
+  fillOddEven = FALSE,
+  ...
+)
 }
 \arguments{
 \item{x}{vectors containing the coordinates of the vertices

@@ -161,16 +161,23 @@ ggplot(xy.sp.l) +
 # Reproduce with library `sf`
 Function `hatched.SpatialPolygons` does not yet work direcly with polygons from library `sf` but SpatialPolygons can be transformed as `sf` objects.
 
-```{r}
-# Transform as sf objects
-xy.sp.hatch.sf <- sf::st_as_sf(xy.sp.hatch)
-xy.sp.sf <- sf::st_as_sf(xy.sp)
+Imagine you created / read a sf object
 
+```{r}
+# Depends on your version of sf and sp because of projections
+# nc <- sf::st_read(system.file("shape/nc.shp", package="sf"))
+# Allows for different hatch densities and directions for each polygon
+# nc.hatch <- hatched.SpatialPolygons(nc, density = c(40, 60), angle = c(45, 135))
+xy.sf <- sf::st_as_sf(xy.sp) # simulate st_read()
+xy.sf.hatch <- hatched.SpatialPolygons(xy.sf, density = c(40, 60), angle = c(45, 135))
+```
+
+```{r}
 # Create leaflet widget --------------------------------------------------------
 m <- leaflet() %>%
   addTiles(
     urlTemplate = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png") %>%
-          addPolygons(data = xy.sp.sf, 
+          addPolygons(data = xy.sf, 
                     fillColor = c("transparent", "red"),
                     color = "#000000", 
                     opacity = 1, 
@@ -178,8 +185,8 @@ m <- leaflet() %>%
                     stroke = TRUE,
                     weight = 1.5
         ) %>%
-  addPolylines(data = xy.sp.hatch.sf,
-               color = c("blue", "#FFF")[as.numeric(xy.sp.hatch.sf$ID)])
+  addPolylines(data = xy.sf.hatch,
+               color = c("blue", "#FFF")[as.numeric(xy.sf.hatch$ID)])
 
 m
 ```

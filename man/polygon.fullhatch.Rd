@@ -4,8 +4,15 @@
 \alias{polygon.fullhatch}
 \title{Create hatch area of one polygon}
 \usage{
-polygon.fullhatch(x, y = NULL, density, angle, ..debug.hatch = FALSE,
-  fillOddEven = FALSE, ...)
+polygon.fullhatch(
+  x,
+  y = NULL,
+  density,
+  angle,
+  ..debug.hatch = FALSE,
+  fillOddEven = FALSE,
+  ...
+)
 }
 \arguments{
 \item{x}{vectors containing the coordinates of the vertices
