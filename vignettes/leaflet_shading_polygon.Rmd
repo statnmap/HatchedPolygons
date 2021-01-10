@@ -1,10 +1,10 @@
 ---
-title: "How to fill a hatched area polygon with holes in leaflet with R"
+title: "How to fill a hatched area polygon with holes in R"
 author: "Sébastien Rochette - StatnMap"
 date: "`r Sys.Date()`" 
 output: rmarkdown::html_vignette 
 vignette: > 
-  %\VignetteIndexEntry{How to fill a hatched area polygon with holes in leaflet with R} 
+  %\VignetteIndexEntry{How to fill a hatched area polygon with holes with R} 
   %\VignetteEngine{knitr::rmarkdown} 
   %\VignetteEncoding{UTF-8}
 ---
