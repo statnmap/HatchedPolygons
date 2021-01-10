@@ -89,20 +89,80 @@
 <a href="#hatchedpolygons" class="anchor"></a>HatchedPolygons</h1></div>
 <!-- badges: start -->
 
-<div id="create-a-hatched-area-for-spatialpolygons-in-r" class="section level2">
-<h2 class="hasAnchor">
-<a href="#create-a-hatched-area-for-spatialpolygons-in-r" class="anchor"></a>Create a hatched area for SpatialPolygons in R</h2>
 <p>This R package creates a area filled by SpatialLines to allow for hatched areas in SpatialPolygons.<br>
 This may be particularly useful when SpatialPolygons show holes but also for drawing hatched areas in leaflet Polygons.</p>
 <p>To install it:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"statnmap/HatchedPolygons"</span>)</span></code></pre></div>
-<p>Read documentation on the pkgdown website : <a href="https://statnmap.github.io/HatchedPolygons" class="uri">https://statnmap.github.io/HatchedPolygons</a></p>
+<div id="create-a-hatched-area-for-spatialpolygons-in-r" class="section level2">
+<h2 class="hasAnchor">
+<a href="#create-a-hatched-area-for-spatialpolygons-in-r" class="anchor"></a>Create a hatched area for SpatialPolygons in R</h2>
+<div id="with-sp" class="section level3">
+<h3 class="hasAnchor">
+<a href="#with-sp" class="anchor"></a>With {sp}</h3>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/edzer/sp/">sp</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/">sf</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/statnmap/HatchedPolygons">HatchedPolygons</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
+
+<span class="co"># Create two polygons: second would be a hole inside the first</span>
+<span class="va">xy</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span>
+  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">13.4</span>, <span class="fl">13.4</span>, <span class="fl">13.6</span>, <span class="fl">13.6</span>, <span class="fl">13.4</span><span class="op">)</span>,
+  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">48.9</span>, <span class="fl">49</span>, <span class="fl">49</span>, <span class="fl">48.9</span>, <span class="fl">48.9</span><span class="op">)</span>
+    <span class="op">)</span>
+<span class="va">hole.xy</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span>
+  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">13.5</span>, <span class="fl">13.5</span>, <span class="fl">13.45</span>, <span class="fl">13.45</span>, <span class="fl">13.5</span><span class="op">)</span>,
+  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">48.98</span>, <span class="fl">48.92</span>, <span class="fl">48.92</span>, <span class="fl">48.98</span>, <span class="fl">48.98</span><span class="op">)</span>
+  <span class="op">)</span>
+
+<span class="co"># Create SpatialPolygon</span>
+<span class="va">xy.sp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sp/man/SpatialPolygons.html">SpatialPolygonsDataFrame</a></span><span class="op">(</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/sp/man/SpatialPolygons.html">SpatialPolygons</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+    <span class="fu"><a href="https://rdrr.io/pkg/sp/man/SpatialPolygons.html">Polygons</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/sp/man/SpatialPolygons.html">Polygon</a></span><span class="op">(</span><span class="va">xy</span><span class="op">)</span>, 
+                  <span class="fu"><a href="https://rdrr.io/pkg/sp/man/SpatialPolygons.html">Polygon</a></span><span class="op">(</span><span class="va">hole.xy</span>, hole <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>, <span class="st">"1"</span><span class="op">)</span>,
+    <span class="fu"><a href="https://rdrr.io/pkg/sp/man/SpatialPolygons.html">Polygons</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/sp/man/SpatialPolygons.html">Polygon</a></span><span class="op">(</span><span class="va">hole.xy</span> <span class="op">+</span> <span class="fl">0.2</span>, hole <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,
+                  <span class="fu"><a href="https://rdrr.io/pkg/sp/man/SpatialPolygons.html">Polygon</a></span><span class="op">(</span><span class="va">xy</span> <span class="op">+</span> <span class="fl">0.2</span><span class="op">)</span>,
+                  <span class="fu"><a href="https://rdrr.io/pkg/sp/man/SpatialPolygons.html">Polygon</a></span><span class="op">(</span><span class="va">xy</span> <span class="op">+</span> <span class="fl">0.35</span><span class="op">)</span><span class="op">)</span>, <span class="st">"2"</span><span class="op">)</span>
+  <span class="op">)</span><span class="op">)</span>,
+  data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="op">)</span>
+
+<span class="co"># Allows for different hatch densities and directions for each polygon</span>
+<span class="va">xy.sp.hatch</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/hatched.SpatialPolygons.html">hatched.SpatialPolygons</a></span><span class="op">(</span><span class="va">xy.sp</span>, density <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">40</span>, <span class="fl">60</span><span class="op">)</span>, angle <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">45</span>, <span class="fl">135</span><span class="op">)</span><span class="op">)</span>
+
+<span class="co"># Draw again polygons with holes</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>bg <span class="op">=</span> <span class="st">"lightblue"</span>, mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html">plot</a></span><span class="op">(</span><span class="va">xy.sp</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"blue"</span>, <span class="st">"red"</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html">plot</a></span><span class="op">(</span><span class="va">xy.sp.hatch</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"cyan"</span>, <span class="st">"grey90"</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">xy.sp.hatch</span><span class="op">$</span><span class="va">ID</span><span class="op">)</span><span class="op">]</span>,
+     lwd <span class="op">=</span> <span class="fl">3</span>, add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-1-1.png" width="100%"></p>
+</div>
+<div id="with-sf" class="section level3">
+<h3 class="hasAnchor">
+<a href="#with-sf" class="anchor"></a>With {sf}</h3>
+<p><em>Note that the current implementation transforms sf object as sp, then back to sf</em></p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Also with {sf}</span>
+<span class="va">xy.sf</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html">st_as_sf</a></span><span class="op">(</span><span class="va">xy.sp</span><span class="op">)</span> <span class="co"># simulate st_read()</span>
+<span class="va">xy.sf.hatch</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/hatched.SpatialPolygons.html">hatched.SpatialPolygons</a></span><span class="op">(</span><span class="va">xy.sf</span>, density <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">40</span>, <span class="fl">60</span><span class="op">)</span>, angle <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">45</span>, <span class="fl">135</span><span class="op">)</span><span class="op">)</span>
+
+<span class="co"># Plot with ggplot2</span>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">xy.sf</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="va">id</span><span class="op">)</span>, 
+          fill <span class="op">=</span> <span class="st">"transparent"</span>, size <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">xy.sf.hatch</span>, 
+          <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="va">ID</span><span class="op">)</span>,
+          size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html">guides</a></span><span class="op">(</span>col <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-2-1.png" width="100%"></p>
+<p>See documentation on the pkgdown website for details : <a href="https://statnmap.github.io/HatchedPolygons/" class="uri">https://statnmap.github.io/HatchedPolygons/</a></p>
 <p><img src="reference/figures/Leaflet_Snapshot.jpg" alt="Hatched Polygons with Leaflet"></p>
 <p><em>Description of this function can be found on <a href="https://statnmap.com/2017-05-23-how-to-fill-a-hatched-area-polygon-with-holes-in-leaflet-with-r">statnmap.com</a></em><br><em>More on my website: <a href="https://statnmap.com/">Freelance - Courses and consulting in modeling with R</a></em></p>
 <p>There is also a vignette:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">vignette</span>(<span class="st">"leaflet_shading_polygon"</span>, <span class="dt">package =</span> <span class="st">"HatchedPolygons"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">vignette</span>(<span class="st">"leaflet_shading_polygon"</span>, <span class="dt">package =</span> <span class="st">"HatchedPolygons"</span>)</span></code></pre></div>
 <p>Citation:<br>
 Sébastien Rochette. (2017, August 18). Hatched area in polygons with R - v0.1.0. Zenodo. <a href="http://doi.org/10.5281/zenodo.845493" class="uri">http://doi.org/10.5281/zenodo.845493</a></p>
+</div>
 </div>
 </div>
   </div>
