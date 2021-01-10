@@ -64,15 +64,17 @@ polygon(hole.xy, density = 5, lwd = 2, angle = -45, col = "blue")
 Let's duplicate polygons at different positions and transform these polygons as SpatialPolygons, including holes. Using default graphical options, polygons can be plotted with hatched areas and holes are visible. Polygon drawing function uses the color of the background to fill holes, so that they appear as hole. However, if you want to superimpose your layer over another layer, holes will hide the background image.
 
 ```{r}
-# Transform as SpatialPolygon to plot
-xy.sp <- SpatialPolygons(list(
-  Polygons(list(Polygon(xy), 
-                Polygon(hole.xy, hole = TRUE)), "1"),
-  Polygons(list(Polygon(hole.xy + 0.2, hole = TRUE),
-    Polygon(xy + 0.2),
-                Polygon(xy + 0.35)
-                ), "2")
-  ))
+# Create a SpatialPolygon to plot
+xy.sp <- SpatialPolygonsDataFrame(
+  SpatialPolygons(list(
+    Polygons(list(Polygon(xy), 
+                  Polygon(hole.xy, hole = TRUE)), "1"),
+    Polygons(list(Polygon(hole.xy + 0.2, hole = TRUE),
+                  Polygon(xy + 0.2),
+                  Polygon(xy + 0.35)), "2")
+  )),
+  data = data.frame(id = as.character(c(1, 2)))
+)
 
 par(bg = "lightblue", mar = c(2, 2, 0.5, 0.5)) # default
 plot(xy.sp, density = 10, col = c("red", "blue"), lwd = 2)
@@ -172,25 +174,26 @@ xy.sf <- sf::st_as_sf(xy.sp) # simulate st_read()
 xy.sf.hatch <- hatched.SpatialPolygons(xy.sf, density = c(40, 60), angle = c(45, 135))
 ```
 
+## Plot with {ggplot2}
 ```{r}
-# Create leaflet widget --------------------------------------------------------
-m <- leaflet() %>%
-  addTiles(
-    urlTemplate = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png") %>%
-          addPolygons(data = xy.sf, 
-                    fillColor = c("transparent", "red"),
-                    color = "#000000", 
-                    opacity = 1, 
-                    fillOpacity = 0.6, 
-                    stroke = TRUE,
-                    weight = 1.5
-        ) %>%
-  addPolylines(data = xy.sf.hatch,
-               color = c("blue", "#FFF")[as.numeric(xy.sf.hatch$ID)])
-
-m
+ggplot(xy.sf) +
+  geom_sf(aes(colour = id), 
+          fill = "transparent", size = 1.5) +
+  geom_sf(data = xy.sf.hatch, 
+          aes(colour = ID),
+          size = 1) +
+  guides(col = FALSE)
 ```
 
+## Plot with {tmap}
+```{r}
+library(tmap)
+
+tm_shape(xy.sf) +
+  tm_sf(col = "id", palette = "Set2") +
+tm_shape(xy.sf.hatch) +
+  tm_sf()
+```
 
 _Description of this function can be found on [statnmap.com](https://statnmap.com/2017-05-23-how-to-fill-a-hatched-area-polygon-with-holes-in-leaflet-with-r)_
 _Function `hatched.SpatialPolygons` can be found in my R package `HatchedPolygons` on [my statnmap github](https://github.com/statnmap/HatchedPolygons). This R package has been built only for this function_

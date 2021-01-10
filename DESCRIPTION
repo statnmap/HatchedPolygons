@@ -12,6 +12,7 @@ Description: This package allows to create a area filled by
     SpatialLines to allow for hatched areas in SpatialPolygons.  This may
     be particularly useful when SpatialPolygons show holes but also for
     drawing hatched areas in leaflet Polygons.
+License: GPL-3
 URL: https://github.com/statnmap/HatchedPolygons
 BugReports: https://github.com/statnmap/HatchedPolygons/issues
 Depends: 
@@ -30,10 +31,10 @@ Suggests:
     leaflet,
     raster,
     rmarkdown,
-    tidyr
+    tidyr,
+    tmap
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
-License: GPL-3
