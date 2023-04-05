@@ -30,6 +30,12 @@ polygonRingHolesLines <- function(Sr,
         lines.hatch <- polygon.fullhatch(slot(polys[[i]], "coords"),
                                          density = density, angle = angle, fillOddEven = fillOddEven)
         
+        if(length(lines.hatch)==0)
+        {
+          warning("Polygon too small to contain any lines.  Consider increasing 'density'.")
+          next()
+        }
+
         # Transform as SpatialLines
         Lines.i <- SpatialLines(list(Lines(
           apply(lines.hatch, 1,

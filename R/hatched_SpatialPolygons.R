@@ -48,6 +48,9 @@ hatched.SpatialPolygons <-
         ID = polys[[j]]@ID,
         fillOddEven = fillOddEven
       )
+      if(length(all.Lines.tmp)==0)
+        next()
+      
       all.Lines.ID <- c(all.Lines.ID, rep(polys[[j]]@ID, length(all.Lines.tmp)))
       all.Lines[length(all.Lines) + 1:length(all.Lines.tmp)] <- all.Lines.tmp
     }
