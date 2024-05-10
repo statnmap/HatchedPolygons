@@ -43,4 +43,5 @@ Create hatch area of one polygon
 res <- polygon.fullhatch(x, density = 10, angle = 45)
 arrows(res$lx1, res$ly1, res$lx2, res$ly2, col = "red", code = 0)
 }
+
 }

@@ -5,6 +5,8 @@
 #' @import sp
 #' @importFrom methods is as
 #' @importFrom methods slot
+#' @importFrom sf st_is
+#' @importFrom sf st_as_sf
 #'
 #' @export
 
@@ -21,7 +23,7 @@ hatched.SpatialPolygons <-
       polys <- slot(x, "polygons")
       pO <- slot(x, "plotOrder")
       type <- "sp"
-    } else if (sf::st_is(x, c("POLYGON", "MULTIPOLYGON"))[1]) {
+    } else if (st_is(x, c("POLYGON", "MULTIPOLYGON"))[1]) {
       # n <- length(x)
       # To do
       x <- as(x, "Spatial")
@@ -61,7 +63,7 @@ hatched.SpatialPolygons <-
       match.ID = FALSE)
     
     if (type == "sf") {
-      SpatialLinesDF_sf <- sf::st_as_sf(SpatialLinesDF)
+      SpatialLinesDF_sf <- st_as_sf(SpatialLinesDF)
       return(SpatialLinesDF_sf)
     } else {
       return(SpatialLinesDF)

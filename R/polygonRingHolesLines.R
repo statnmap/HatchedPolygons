@@ -43,9 +43,14 @@ polygonRingHolesLines <- function(Sr,
           ID = i)))
         
         # Clean Lines if over a "hole"
-        Lines.i.holes <- rgeos::gIntersection(Lines.i, SpatialPolygons(list(Sr)),
-                                              drop_lower_td = TRUE)
-        
+        #
+        # Lines.i.holes <- rgeos::gIntersection(Lines.i, SpatialPolygons(list(Sr)),
+        #                                       drop_lower_td = TRUE)
+        Lines.i.holes <- st_intersection(
+          Lines.i  |> st_as_sfc(), 
+          SpatialPolygons(list(Sr)) |> st_as_sfc()
+        ) |> as("Spatial")
+                
         if (!is.null(Lines.i.holes)) {
           Lines.i.holes@lines[[1]]@ID <- paste0(ID, ".", i)
           all.Lines[[length(all.Lines) + 1]] <- Lines.i.holes@lines[[1]]

@@ -8,6 +8,8 @@
 #' @param xd parameter as issued from \code{\link{polygon.fullhatch}}
 #' @param yd parameter as issued from \code{\link{polygon.fullhatch}}
 #'
+#' @importFrom graphics points
+#' @importFrom graphics arrows
 
 polygon.onehatch <- function(x, y, x0, y0, xd, yd, ..debug.hatch = FALSE,
                              fillOddEven = FALSE,

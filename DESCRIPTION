@@ -1,12 +1,18 @@
 Type: Package
 Package: HatchedPolygons
 Title: Create a hatched area for SpatialPolygons
-Version: 0.2.0.9000
+Version: 0.3.0.9000
 Authors@R: 
-    person(given = "Sébastien",
-           family = "Rochette",
-           role = c("aut", "cre"),
-           email = "sebastienrochettefr@gmail.com")
+    c(
+        person(given = "Sébastien",
+               family = "Rochette",
+               role = c("aut", "cre"),
+               email = "sebastienrochettefr@gmail.com"),
+        person(given = "Gregory R.",
+               family = "Warnes",
+               role = c("ctb"),
+               email = "greg@warnes.net")
+  )
 Maintainer: Sébastien Rochette <sebastienrochettefr@gmail.com>
 Description: This package allows to create a area filled by
     SpatialLines to allow for hatched areas in SpatialPolygons.  This may
@@ -21,7 +27,6 @@ Imports:
     dplyr,
     graphics,
     methods,
-    rgeos,
     sf,
     sp
 Suggests:
@@ -37,4 +42,4 @@ VignetteBuilder:
     knitr
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1

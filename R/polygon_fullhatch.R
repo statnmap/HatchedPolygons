@@ -8,6 +8,9 @@
 #' res <- polygon.fullhatch(x, density = 10, angle = 45)
 #' arrows(res$lx1, res$ly1, res$lx2, res$ly2, col = "red", code = 0)
 #' }
+#' 
+#' @importFrom dplyr bind_rows
+#' 
 #' @export
 
 polygon.fullhatch <- function(x, y = NULL, density, angle, ..debug.hatch = FALSE,
@@ -57,7 +60,7 @@ polygon.fullhatch <- function(x, y = NULL, density, angle, ..debug.hatch = FALSE
                                   fillOddEven = fillOddEven,
                                   ...)
       if (!is.null(res.tmp)) {
-        res <- dplyr::bind_rows(res, res.tmp)
+        res <- bind_rows(res, res.tmp)
       }
       y0 <- y0 + y.shift
     }
@@ -80,7 +83,7 @@ polygon.fullhatch <- function(x, y = NULL, density, angle, ..debug.hatch = FALSE
                                   fillOddEven = fillOddEven,
                                   ...)
       if (!is.null(res.tmp)) {
-        res <- dplyr::bind_rows(res, res.tmp)
+        res <- bind_rows(res, res.tmp)
       }
       x0 <- x0 + x.shift
     }
