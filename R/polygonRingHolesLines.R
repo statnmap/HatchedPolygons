@@ -5,9 +5,11 @@
 #' @param ID Number or string identifying the Polygon inside Polygons
 #'
 #' @import sp
+#' @importFrom methods as
 #' @importFrom methods is
 #' @importFrom methods slot
-#'
+#' @importFrom sf st_intersection
+#' @importFrom sf st_as_sfc
 
 polygonRingHolesLines <- function(Sr,
                                   density = 0.5,
