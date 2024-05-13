@@ -5,3 +5,6 @@
 .RData
 .Ruserdata
 inst/doc
+renv
+renv.lock
+.Rprofile

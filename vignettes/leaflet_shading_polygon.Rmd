@@ -19,10 +19,11 @@ knitr::opts_chunk$set(
 
 # Draw SpatialPolygons with holes using hatched area
 
-Drawing polygons filled with a hatched background is quite easy with classical plot in R. This only requires to define `density` and `angle` parameters of `polygon` function. `SpatialPolygons` from library `sp` also uses this `polygon` function. However, if you want to draw a hatched area of a `SpatialPolygons` when there are holes, this may not work perfectly as the hole is filled with the plot background color to hide the hatched area of the surrounding polygon. Hence, if you want to draw a polygon with holes over a background image, you will not be able to see what is behind holes, which is a shame because this is one aim of a hole. Here, I show how you could get rid of this behaviour by using `SpatialLines` to draw the hatched area.  
+Drawing polygons filled with a hatched background is quite easy with classical plot in R. This only requires to define `density` and `angle` parameters of `polygon` function. `SpatialPolygons` from library `sp` also uses this `polygon` function. However, if you want to draw a hatched area of a `SpatialPolygons` when there are holes, this may not work perfectly as the hole is filled with the plot background color to hide the hatched area of the surrounding polygon. Hence, if you want to draw a polygon with holes over a background image, you will not be able to see what is behind holes, which is a shame because this is one aim of a hole. Here, I show how you could get rid of this behaviour by using `SpatialLines` to draw the hatched area.\
 By the way, this trick is also useful for polygons in leaflet widgets as, to my knowledge, hatched polygons is not implemented. Some may want to draw hatched areas instead of coloured polygons with transparency, in particular when there is area superimposition.
 
 ## A library on github
+
 I built a R package, available on [my statnmap github](https://github.com/statnmap/HatchedPolygons), to provide the function `hatched.SpatialPolygons`. This function is based on the plot method for SpatialPolygons of library sp. I modified the functions and sub-functions to remove all code for direct drawing and allow to output a SpatialLinesDataFrame object, which can then be drawn over any plot, with or without the original SpatialPolygons.
 
 ```{r LibraryInstall}
@@ -34,6 +35,7 @@ I built a R package, available on [my statnmap github](https://github.com/statnm
 ## Draw hatched areas in polygons
 
 Let's create two polygons, one representing a hole inside the other.
+
 ```{r SimplePolygon, message = FALSE}
 library(HatchedPolygons)
 library(dplyr)
@@ -93,7 +95,8 @@ plot(xy.sp, density = 10, col = c("red", "blue"), lwd = 2, add = TRUE)
 
 ## Create SpatialLines to draw hatched areas, out of the holes
 
-To avoid filling holes with hatched lines, I decided to use SpatialLines and crop lines that were over a hole using library rgeos.
+To avoid filling holes with hatched lines, I decided to use SpatialLines and crop lines that were over a hole ~~using library rgeos.~~ by converting the `SpatialLines` and `SpatialPolygon` to `sf::sfc` objects, applying `sf::st_intersection`, and then converting the resulting `sf::sfc` object back to `SpatialLines`.
+
 I had to account for multiple polygons and thus created a dataframe with the SpatialLines to record original polygons ID. Thus, the number of features in the SpatialLines is not the same than the original SpatialPolygons but the ID column should allow to retrieve the correct polygon and define common colors for instance.
 
 ```{r HatchedPolygon}
@@ -111,6 +114,7 @@ plot(xy.sp.hatch, col = c("cyan", "grey90")[as.numeric(xy.sp.hatch$ID)],
 ```
 
 ## Draw hatched polygons in leaflet
+
 An interesting possibility of the function is that it can also be used for leaflet widgets, which, to my knowledge, lacks the possibility to fill polygons with a hatched area.
 
 ```{r Leaflet}
@@ -137,6 +141,7 @@ m
 ```
 
 ## Draw hatched polygons in `ggplot2`
+
 Of course, this can also be used with `ggplot2`...
 
 ```{r, message = FALSE}
@@ -161,6 +166,7 @@ ggplot(xy.sp.l) +
 ```
 
 # Reproduce with library `sf`
+
 Function `hatched.SpatialPolygons` does not yet work direcly with polygons from library `sf` but SpatialPolygons can be transformed as `sf` objects.
 
 Imagine you created / read a sf object
@@ -175,6 +181,7 @@ xy.sf.hatch <- hatched.SpatialPolygons(xy.sf, density = c(40, 60), angle = c(45,
 ```
 
 ## Plot with {ggplot2}
+
 ```{r}
 ggplot(xy.sf) +
   geom_sf(aes(colour = id), 
@@ -186,6 +193,7 @@ ggplot(xy.sf) +
 ```
 
 ## Plot with {tmap}
+
 ```{r}
 library(tmap)
 
@@ -195,5 +203,4 @@ tm_shape(xy.sf.hatch) +
   tm_sf()
 ```
 
-_Description of this function can be found on [statnmap.com](https://statnmap.com/2017-05-23-how-to-fill-a-hatched-area-polygon-with-holes-in-leaflet-with-r)_
-_Function `hatched.SpatialPolygons` can be found in my R package `HatchedPolygons` on [my statnmap github](https://github.com/statnmap/HatchedPolygons). This R package has been built only for this function_
+*Description of this function can be found on [statnmap.com](https://statnmap.com/2017-05-23-how-to-fill-a-hatched-area-polygon-with-holes-in-leaflet-with-r)* *Function `hatched.SpatialPolygons` can be found in my R package `HatchedPolygons` on [my statnmap github](https://github.com/statnmap/HatchedPolygons). This R package has been built only for this function*
