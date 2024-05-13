@@ -6,16 +6,13 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Create a hatched area for SpatialPolygons • HatchedPolygons</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Create a hatched area for SpatialPolygons">
-<meta property="og:description" content="This package allows to create a area filled by
-    SpatialLines to allow for hatched areas in SpatialPolygons.  This may
-    be particularly useful when SpatialPolygons show holes but also for
-    drawing hatched areas in leaflet Polygons.">
+<meta property="og:description" content="This package allows to create a area filled by SpatialLines to allow for hatched areas in SpatialPolygons. This may be particularly useful when SpatialPolygons show holes but also for drawing hatched areas in leaflet Polygons.">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -36,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">HatchedPolygons</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.0.9000</span>
       </span>
     </div>
 
@@ -84,10 +81,11 @@
 <div class="page-header"><h1 id="hatchedpolygons">HatchedPolygons<a class="anchor" aria-label="anchor" href="#hatchedpolygons"></a>
 </h1></div>
 <!-- badges: start -->
+
 <p>This R package creates a area filled by SpatialLines to allow for hatched areas in SpatialPolygons.<br>
 This may be particularly useful when SpatialPolygons show holes but also for drawing hatched areas in leaflet Polygons.</p>
 <p>To install it:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"statnmap/HatchedPolygons"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"statnmap/HatchedPolygons"</span>)</span></code></pre></div>
 <div class="section level2">
 <h2 id="create-a-hatched-area-for-spatialpolygons-in-r">Create a hatched area for SpatialPolygons in R<a class="anchor" aria-label="anchor" href="#create-a-hatched-area-for-spatialpolygons-in-r"></a>
 </h2>
@@ -101,23 +99,27 @@ This may be particularly useful when SpatialPolygons show holes but also for dra
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Create two polygons: second would be a hole inside the first</span></span>
-<span><span class="va">xy</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span></span>
+<span><span class="va">xy</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">13.4</span>, <span class="fl">13.4</span>, <span class="fl">13.6</span>, <span class="fl">13.6</span>, <span class="fl">13.4</span><span class="op">)</span>,</span>
 <span>  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">48.9</span>, <span class="fl">49</span>, <span class="fl">49</span>, <span class="fl">48.9</span>, <span class="fl">48.9</span><span class="op">)</span></span>
-<span>    <span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span><span class="va">hole.xy</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">13.5</span>, <span class="fl">13.5</span>, <span class="fl">13.45</span>, <span class="fl">13.45</span>, <span class="fl">13.5</span><span class="op">)</span>,</span>
 <span>  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">48.98</span>, <span class="fl">48.92</span>, <span class="fl">48.92</span>, <span class="fl">48.98</span>, <span class="fl">48.98</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Create SpatialPolygon</span></span>
-<span><span class="va">xy.sp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sp/man/SpatialPolygons.html" class="external-link">SpatialPolygonsDataFrame</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/sp/man/SpatialPolygons.html" class="external-link">SpatialPolygons</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/pkg/sp/man/SpatialPolygons.html" class="external-link">Polygons</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/sp/man/SpatialPolygons.html" class="external-link">Polygon</a></span><span class="op">(</span><span class="va">xy</span><span class="op">)</span>, </span>
-<span>                  <span class="fu"><a href="https://rdrr.io/pkg/sp/man/SpatialPolygons.html" class="external-link">Polygon</a></span><span class="op">(</span><span class="va">hole.xy</span>, hole <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>, <span class="st">"1"</span><span class="op">)</span>,</span>
-<span>    <span class="fu"><a href="https://rdrr.io/pkg/sp/man/SpatialPolygons.html" class="external-link">Polygons</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/sp/man/SpatialPolygons.html" class="external-link">Polygon</a></span><span class="op">(</span><span class="va">hole.xy</span> <span class="op">+</span> <span class="fl">0.2</span>, hole <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
-<span>                  <span class="fu"><a href="https://rdrr.io/pkg/sp/man/SpatialPolygons.html" class="external-link">Polygon</a></span><span class="op">(</span><span class="va">xy</span> <span class="op">+</span> <span class="fl">0.2</span><span class="op">)</span>,</span>
-<span>                  <span class="fu"><a href="https://rdrr.io/pkg/sp/man/SpatialPolygons.html" class="external-link">Polygon</a></span><span class="op">(</span><span class="va">xy</span> <span class="op">+</span> <span class="fl">0.35</span><span class="op">)</span><span class="op">)</span>, <span class="st">"2"</span><span class="op">)</span></span>
+<span><span class="va">xy.sp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://edzer.github.io/sp/reference/SpatialPolygons.html" class="external-link">SpatialPolygonsDataFrame</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://edzer.github.io/sp/reference/SpatialPolygons.html" class="external-link">SpatialPolygons</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://edzer.github.io/sp/reference/SpatialPolygons.html" class="external-link">Polygons</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>      <span class="fu"><a href="https://edzer.github.io/sp/reference/SpatialPolygons.html" class="external-link">Polygon</a></span><span class="op">(</span><span class="va">xy</span><span class="op">)</span>,</span>
+<span>      <span class="fu"><a href="https://edzer.github.io/sp/reference/SpatialPolygons.html" class="external-link">Polygon</a></span><span class="op">(</span><span class="va">hole.xy</span>, hole <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>    <span class="op">)</span>, <span class="st">"1"</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://edzer.github.io/sp/reference/SpatialPolygons.html" class="external-link">Polygons</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>      <span class="fu"><a href="https://edzer.github.io/sp/reference/SpatialPolygons.html" class="external-link">Polygon</a></span><span class="op">(</span><span class="va">hole.xy</span> <span class="op">+</span> <span class="fl">0.2</span>, hole <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>      <span class="fu"><a href="https://edzer.github.io/sp/reference/SpatialPolygons.html" class="external-link">Polygon</a></span><span class="op">(</span><span class="va">xy</span> <span class="op">+</span> <span class="fl">0.2</span><span class="op">)</span>,</span>
+<span>      <span class="fu"><a href="https://edzer.github.io/sp/reference/SpatialPolygons.html" class="external-link">Polygon</a></span><span class="op">(</span><span class="va">xy</span> <span class="op">+</span> <span class="fl">0.35</span><span class="op">)</span></span>
+<span>    <span class="op">)</span>, <span class="st">"2"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span><span class="op">)</span>,</span>
 <span>  data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
@@ -128,8 +130,10 @@ This may be particularly useful when SpatialPolygons show holes but also for dra
 <span><span class="co"># Draw again polygons with holes</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>bg <span class="op">=</span> <span class="st">"lightblue"</span>, mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">xy.sp</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blue"</span>, <span class="st">"red"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">xy.sp.hatch</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cyan"</span>, <span class="st">"grey90"</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">xy.sp.hatch</span><span class="op">$</span><span class="va">ID</span><span class="op">)</span><span class="op">]</span>,</span>
-<span>     lwd <span class="op">=</span> <span class="fl">3</span>, add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">xy.sp.hatch</span>,</span>
+<span>  col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cyan"</span>, <span class="st">"grey90"</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">xy.sp.hatch</span><span class="op">$</span><span class="va">ID</span><span class="op">)</span><span class="op">]</span>,</span>
+<span>  lwd <span class="op">=</span> <span class="fl">3</span>, add <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-1-1.png" width="100%"></p>
 </div>
 <div class="section level3">
@@ -143,20 +147,28 @@ This may be particularly useful when SpatialPolygons show holes but also for dra
 <span></span>
 <span><span class="co"># Plot with ggplot2</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">xy.sf</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="va">id</span><span class="op">)</span>, </span>
-<span>          fill <span class="op">=</span> <span class="st">"transparent"</span>, size <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">xy.sf.hatch</span>, </span>
-<span>          <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="va">ID</span><span class="op">)</span>,</span>
-<span>          size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>col <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="va">id</span><span class="op">)</span>,</span>
+<span>    fill <span class="op">=</span> <span class="st">"transparent"</span>, size <span class="op">=</span> <span class="fl">1.5</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span></span>
+<span>    data <span class="op">=</span> <span class="va">xy.sf.hatch</span>,</span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="va">ID</span><span class="op">)</span>,</span>
+<span>    size <span class="op">=</span> <span class="fl">1</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>col <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: The `&lt;scale&gt;` argument of `guides()` cannot be `FALSE`. Use "none" instead as</span></span>
+<span><span class="co">#&gt; of ggplot2 3.3.4.</span></span>
+<span><span class="co">#&gt; This warning is displayed once every 8 hours.</span></span>
+<span><span class="co">#&gt; Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span>
+<span><span class="co">#&gt; generated.</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-2-1.png" width="100%"></p>
 <p>See documentation on the pkgdown website for details : <a href="https://statnmap.github.io/HatchedPolygons/" class="external-link uri">https://statnmap.github.io/HatchedPolygons/</a></p>
-<div class="figure">
-<img src="reference/figures/Leaflet_Snapshot.jpg" alt=""><p class="caption">Hatched Polygons with Leaflet</p>
+<div class="float">
+<img src="reference/figures/Leaflet_Snapshot.jpg" alt="Hatched Polygons with Leaflet"><div class="figcaption">Hatched Polygons with Leaflet</div>
 </div>
 <p><em>Description of this function can be found on <a href="https://statnmap.com/2017-05-23-how-to-fill-a-hatched-area-polygon-with-holes-in-leaflet-with-r" class="external-link">statnmap.com</a></em><br><em>More on my website: <a href="https://statnmap.com/" class="external-link">Freelance - Courses and consulting in modeling with R</a></em></p>
 <p>There is also a vignette:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">vignette</span>(<span class="st">"leaflet_shading_polygon"</span>, <span class="dt">package =</span> <span class="st">"HatchedPolygons"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">vignette</span>(<span class="st">"leaflet_shading_polygon"</span>, <span class="at">package =</span> <span class="st">"HatchedPolygons"</span>)</span></code></pre></div>
 <p>Citation:<br>
 Sébastien Rochette. (2017, August 18). Hatched area in polygons with R - v0.1.0. Zenodo. <a href="http://doi.org/10.5281/zenodo.845493" class="external-link uri">http://doi.org/10.5281/zenodo.845493</a></p>
 </div>
@@ -193,6 +205,7 @@ Sébastien Rochette. (2017, August 18). Hatched area in polygons with R - v0.1.0
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Sébastien Rochette <br><small class="roles"> Author, maintainer </small>  </li>
+<li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
 
@@ -200,7 +213,7 @@ Sébastien Rochette. (2017, August 18). Hatched area in polygons with R - v0.1.0
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://zenodo.org/badge/latestdoi/90766217" class="external-link"><img src="https://zenodo.org/badge/90766217.svg" alt="DOI"></a></li>
-<li><a href="https://github.com/statnmap/HatchedPolygons/actions" class="external-link"><img src="https://github.com/statnmap/HatchedPolygons/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
+<li><a href="https://github.com/statnmap/HatchedPolygons/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/statnmap/HatchedPolygons/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
 </ul>
 </div>
 
@@ -215,7 +228,7 @@ Sébastien Rochette. (2017, August 18). Hatched area in polygons with R - v0.1.0
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
 </div>
 
       </footer>
