@@ -4,8 +4,7 @@
 <!-- badges: start -->
 
 [![DOI](https://zenodo.org/badge/90766217.svg)](https://zenodo.org/badge/latestdoi/90766217)
-[![R build
-status](https://github.com/statnmap/HatchedPolygons/workflows/R-CMD-check/badge.svg)](https://github.com/statnmap/HatchedPolygons/actions)
+[![R-CMD-check](https://github.com/statnmap/HatchedPolygons/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/statnmap/HatchedPolygons/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 This R package creates a area filled by SpatialLines to allow for
@@ -28,23 +27,27 @@ library(HatchedPolygons)
 library(ggplot2)
 
 # Create two polygons: second would be a hole inside the first
-xy = cbind(
+xy <- cbind(
   x = c(13.4, 13.4, 13.6, 13.6, 13.4),
   y = c(48.9, 49, 49, 48.9, 48.9)
-    )
+)
 hole.xy <- cbind(
   x = c(13.5, 13.5, 13.45, 13.45, 13.5),
   y = c(48.98, 48.92, 48.92, 48.98, 48.98)
-  )
+)
 
 # Create SpatialPolygon
 xy.sp <- SpatialPolygonsDataFrame(
   SpatialPolygons(list(
-    Polygons(list(Polygon(xy), 
-                  Polygon(hole.xy, hole = TRUE)), "1"),
-    Polygons(list(Polygon(hole.xy + 0.2, hole = TRUE),
-                  Polygon(xy + 0.2),
-                  Polygon(xy + 0.35)), "2")
+    Polygons(list(
+      Polygon(xy),
+      Polygon(hole.xy, hole = TRUE)
+    ), "1"),
+    Polygons(list(
+      Polygon(hole.xy + 0.2, hole = TRUE),
+      Polygon(xy + 0.2),
+      Polygon(xy + 0.35)
+    ), "2")
   )),
   data = data.frame(id = as.character(c(1, 2)))
 )
@@ -55,8 +58,10 @@ xy.sp.hatch <- hatched.SpatialPolygons(xy.sp, density = c(40, 60), angle = c(45,
 # Draw again polygons with holes
 par(bg = "lightblue", mar = c(2, 2, 0.5, 0.5))
 plot(xy.sp, col = c("blue", "red"))
-plot(xy.sp.hatch, col = c("cyan", "grey90")[as.numeric(xy.sp.hatch$ID)],
-     lwd = 3, add = TRUE)
+plot(xy.sp.hatch,
+  col = c("cyan", "grey90")[as.numeric(xy.sp.hatch$ID)],
+  lwd = 3, add = TRUE
+)
 ```
 
 <img src="man/figures/README-unnamed-chunk-1-1.png" width="100%" />
@@ -73,12 +78,20 @@ xy.sf.hatch <- hatched.SpatialPolygons(xy.sf, density = c(40, 60), angle = c(45,
 
 # Plot with ggplot2
 ggplot(xy.sf) +
-  geom_sf(aes(colour = id), 
-          fill = "transparent", size = 1.5) +
-  geom_sf(data = xy.sf.hatch, 
-          aes(colour = ID),
-          size = 1) +
+  geom_sf(aes(colour = id),
+    fill = "transparent", size = 1.5
+  ) +
+  geom_sf(
+    data = xy.sf.hatch,
+    aes(colour = ID),
+    size = 1
+  ) +
   guides(col = FALSE)
+#> Warning: The `<scale>` argument of `guides()` cannot be `FALSE`. Use "none" instead as
+#> of ggplot2 3.3.4.
+#> This warning is displayed once every 8 hours.
+#> Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+#> generated.
 ```
 
 <img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
